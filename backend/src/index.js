@@ -22,7 +22,7 @@ app.get("/",(req,res) => {
 })
 
 app.post("/api/create",createShortUrl);
-// app.get("/shorturl",getAllShortUrls);
+app.get("/:id",getAllShortUrls);
 
 
 
