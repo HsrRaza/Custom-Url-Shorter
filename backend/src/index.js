@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/mongo.config.js";
-import { createShortUrl, getAllShortUrls } from "./controllers/shorturl.controllers.js";
+import shortUrlRoutes from "./routes/shortUrl.routes.js";
 dotenv.config();
 
 const app = express();
@@ -17,14 +17,11 @@ connectDB()
     console.log(error);
 }); 
 
+app.use("/api",shortUrlRoutes);
+
 app.get("/",(req,res) => {
     res.send("Hello World!");
 })
-
-app.post("/api/create",createShortUrl);
-app.get("/:id",getAllShortUrls);
-
-
 
 app.listen(3000, () => {
     console.log("Server is running on port 3000");
