@@ -1,33 +1,36 @@
 
-import ShortUrl from "../models/shortUrl.models.js";
+import { getUrlFromShortUrl } from "../dao/shortUrl.js";
 import { createShortUrlWithoutUserService } from "../services/shortUrl.service.js";
-const createShortUrl = async (req, res) => {
+import { NotFoundError } from "../utils/errorHandler.js";
+import { wrapAsync } from "../utils/tryCatch.js";
+
+
+
+
+const createShortUrl = wrapAsync(async (req, res) => {
 
     const { url } = req.body;
-
+    
     const shortUrl = await createShortUrlWithoutUserService(url);
     res.send(process.env.APP_URL + shortUrl)
-};
+    
+});
 
 
 
-const getAllShortUrls = async (req, res) => {
-
+const redirectFromShortUrl = wrapAsync(async (req, res, ) => {
+    
     const { id } = req.params;
-    try {
-        const url = await ShortUrl.find({ short_url: id });
-
-        if (url && url.length > 0) {
-            return res.redirect(url[0].full_url).status(302).json({ message: "Successfull fetched short URL" });
-        } else {
-            return res.status(404).json({ message: "Not found" })
-        }
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: "Internal server error" });
-    }
+    
+    const url = await getUrlFromShortUrl(id)
+    
+    if(!url) throw new NotFoundError("URL not found");
+        
+    console.log(url);
+    res.redirect(url.full_url);
 
 
-};
+  
+});
 
-export { createShortUrl, getAllShortUrls };
+export { createShortUrl, redirectFromShortUrl };
