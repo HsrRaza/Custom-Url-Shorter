@@ -1,6 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { createShortUrl } from "../api/shortUrl.api";
+// import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const UrlForm = () => {
 
@@ -12,15 +12,17 @@ const UrlForm = () => {
    
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const {data} = await axios.post('http://localhost:3000/api/create', { url });
-        setShortUrl(data);
+        const shortUrl = await createShortUrl(url)
+        setShortUrl(shortUrl);
     }
 
      
-    const query = useQuery({
-        queryKey: ['shortUrl'],
-        queryFn: handleSubmit
-    }) 
+    // const mutation = useMutation({
+    //     mutationFn: handleSubmit,
+    //     onSuccess: (data) => {
+    //         setShortUrl(data);
+    //     }
+    // })
         
 
 
