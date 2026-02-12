@@ -12,8 +12,12 @@ const createShortUrl = wrapAsync(async (req, res) => {
     const { url } = req.body;
     
     const shortUrl = await createShortUrlWithoutUserService(url);
-    res.send(process.env.APP_URL + shortUrl)
     
+    res.status(201).json({
+        success:true,
+        message:"Short URL created successfully",
+        shortUrl:process.env.APP_URL + shortUrl
+    })
 });
 
 

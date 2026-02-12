@@ -4,6 +4,7 @@ import connectDB from "./config/mongo.config.js";
 import shortUrlRoutes from "./routes/shortUrl.routes.js";
 import cors from "cors";
 import { erroHandler } from "./utils/errorHandler.js";
+import authRoutes from "./routes/auth.routes.js";
 dotenv.config();
 
 const app = express();
@@ -19,7 +20,7 @@ connectDB()
 .catch((error) => {
     console.log(error);
 }); 
-
+app.use("/api/auth",authRoutes);
 app.use("/",shortUrlRoutes);
 app.use(erroHandler)
 
