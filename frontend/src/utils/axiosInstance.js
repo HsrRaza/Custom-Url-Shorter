@@ -44,11 +44,9 @@ axiosInstance.interceptors.response.use(
         }
 
         return Promise.reject({
-            isAxiosError:true,
             message:error.response?.data?.message || error.message || "Unkown Err",
             status:error.response?.status,
             data:error.response?.data,
-            originalError:error
         });
 
     }
