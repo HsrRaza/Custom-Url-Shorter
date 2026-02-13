@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser"
 import connectDB from "./config/mongo.config.js";
 import shortUrlRoutes from "./routes/shortUrl.routes.js";
 import cors from "cors";
@@ -12,6 +13,7 @@ app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 connectDB()
 .then(() => {
